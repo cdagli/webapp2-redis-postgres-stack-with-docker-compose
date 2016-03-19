@@ -1,2 +1,2 @@
 FROM nginx
-ADD nginx.conf /etc/nginx/
+ADD config/nginx.conf /etc/nginx/

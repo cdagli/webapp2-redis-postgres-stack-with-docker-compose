@@ -1,17 +1,22 @@
 version: '2'
 services:
-  app1:
-    container_name: app1
-    command: python /code/test.py
-    build: app/
-    volumes:
-     - ./app/code/:/code
-    depends_on:
-     - proxy
-  proxy: 
-    container_name: proxy
-    build: nginx/
-    ports: 
-     - "80:80"
-    volumes: 
-     - .:/config
+    app1:
+        command: supervisord -c /etc/supervisor/supervisord.conf
+        container_name: app1
+        build: app/
+        volumes:
+            - ./app/code/:/code
+    proxy: 
+        container_name: proxy
+        build: nginx/
+        ports: 
+            - "80:80"
+        depends_on:
+            - app1
+    redis: 
+        container_name: redis
+        build: redis/
+        volumes:
+            - ./redis/config/redis.conf:/usr/local/etc/redis/redis.conf
+        ports: 
+            - "6379:6379"
