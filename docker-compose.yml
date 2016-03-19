@@ -1,0 +1,17 @@
+version: '2'
+services:
+  app1:
+    container_name: app1
+    command: python /code/test.py
+    build: app/
+    volumes:
+     - ./app/code/:/code
+    depends_on:
+     - proxy
+  proxy: 
+    container_name: proxy
+    build: nginx/
+    ports: 
+     - "80:80"
+    volumes: 
+     - .:/config
